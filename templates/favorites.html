@@ -1,0 +1,44 @@
+{%extends "layout.html"%}
+
+{%block content%}
+<!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Favorite products</h1>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Cart Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5 justify-content-center">
+            <div class="col-lg-5 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                {%if favorites%}
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                        <tbody class="align-middle">
+                            {%for favorite in favorites%}
+                                <tr>
+                                    <td class="align-middle"><img src="{{url_for('static', filename='img/')}}{{Product.query.filter_by(id=favorite.product_id).first().main_image}}" alt="" style="width: 50px;"> {{Product.query.filter_by(id=favorite.product_id).first().name}}</td>
+                                    <td class="align-middle">${{Product.query.filter_by(id=favorite.product_id).first().discounted_price}}</td>
+                                    <td class="align-middle"><button onclick="window.location='{{url_for('remove_from_fav', pk=favorite.id)}}';" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
+                                </tr>
+                            {%endfor%}
+                        </tbody>
+                {%else%}
+                        <p>You don't have favorite products yet. Let's create your wishlist <a href="{{url_for('main')}}">here</a>!</p>
+                {%endif%}
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Cart End -->
+
+{%endblock%}
